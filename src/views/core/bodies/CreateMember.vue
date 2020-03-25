@@ -7,7 +7,7 @@
       </div>
 
       <form @submit.prevent="createUser()">
-        <div class="field">
+        <div class="field required">
           <label class="label">First name</label>
           <div class="control">
             <input class="input" type="text" required v-model="user.member.first_name" placeholder="Type your first name..." />
@@ -15,7 +15,7 @@
           <p class="help is-danger" v-if="errors.first_name">{{ errors.first_name.join(', ')}}</p>
         </div>
 
-        <div class="field">
+        <div class="field required">
           <label class="label">Last name</label>
           <div class="control">
             <input class="input" type="text" required v-model="user.member.last_name" placeholder="Type your last name..." />
@@ -23,7 +23,7 @@
           <p class="help is-danger" v-if="errors.last_name">{{ errors.last_name.join(', ')}}</p>
         </div>
 
-        <div class="field">
+        <div class="field required">
           <label class="label">Profile URL</label>
           <div class="control">
             <div class="field has-addons">
@@ -36,6 +36,12 @@
             </div>
           </div>
           <p class="help is-danger" v-if="errors.seo_url">{{ errors.seo_url.join(', ')}}</p>
+        </div>
+
+        <div class="field">
+          <label class="label">Date of joining</label>
+          <b-datepicker :date-formatter="formatDate" :date-parser="parseDate" v-model="joinDate" @input="transformJoinDate()" />
+          <p class="help is-danger" v-if="errors.joinDate">{{ errors.joinDate.join(', ')}}</p>
         </div>
 
         <div class="field">
@@ -79,7 +85,7 @@
 
         <hr />
 
-        <div class="field">
+        <div class="field required">
           <label class="label">Email</label>
           <div class="control has-icons-left">
             <span class="icon is-small is-left"><font-awesome-icon icon="envelope" /></span>
@@ -88,7 +94,7 @@
           <p class="help is-danger" v-if="errors.email">{{ errors.email.join(', ')}}</p>
         </div>
 
-        <div class="field">
+        <div class="field required">
           <label class="label">Username</label>
           <div class="control has-icons-left">
             <span class="icon is-small is-left"><font-awesome-icon icon="fa envelope" /></span>
@@ -120,6 +126,7 @@ export default {
           first_name: '',
           last_name: '',
           seo_url: '',
+          date_of_joining: '',
           date_of_birth: '',
           gender: '',
           phone: '',
@@ -145,6 +152,9 @@ export default {
     },
     transformBirthday () {
       this.user.member.date_of_birth = moment(this.birthday, 'YYYY-MM-DD').toDate()
+    },
+    transformJoinDate () {
+      this.user.member.date_of_joining = moment(this.joinDate, 'YYYY-MM-DD').toDate()
     },
     createUser () {
       this.isSaving = true
